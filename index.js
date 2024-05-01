@@ -15,7 +15,7 @@ app.get("/blogs", function (req, res) {
 });
 app.get("/blogs/:id", (req, res) => {
   // con sole.log(req.params);
-  const ress = bloglist.filter((blog) => (blog.id == req.params.id));
+  const ress = bloglist.filter((blog) => blog.id == req.params.id);
   return res.status(200).json({
     data: ress,
     status: true,
@@ -30,6 +30,12 @@ app.post("/blogs", function (req, res) {
     id: Math.floor(Math.random() * 1000),
   });
   return res.status(201).json({ success: true });
+});
+app.delete("/blogs/:id", function (req, res) {
+  // const found = bloglist.some((blog) => blog.id == req.params.id);
+  const ress = bloglist.filter((blog) => blog.id != req.params.id);
+  bloglist = ress;
+  res.send("deleted");
 });
 
 app.listen(PORT, function process() {
