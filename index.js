@@ -21,6 +21,7 @@ app.get("/blogs/:id", (req, res) => {
     status: true,
   });
 });
+
 app.post("/blogs", function (req, res) {
   // req.body cannot be access but we can access req.query params
   // console.log(req.body);
@@ -31,11 +32,17 @@ app.post("/blogs", function (req, res) {
   });
   return res.status(201).json({ success: true });
 });
+
 app.delete("/blogs/:id", function (req, res) {
-  // const found = bloglist.some((blog) => blog.id == req.params.id);
+  // console.log(bloglist);
   const ress = bloglist.filter((blog) => blog.id != req.params.id);
-  bloglist = ress;
-  res.send("deleted");
+  // console.log(ress);
+  if (ress.length === bloglist.length) {
+    res.status(404).send("Error 404: No blog found with the given ID");
+  } else {
+    res.send("Deleted");
+    bloglist = ress;
+  }
 });
 
 app.listen(PORT, function process() {
